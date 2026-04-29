@@ -8,28 +8,26 @@ export class MunicipioService {
     constructor(
         @InjectRepository(Municipio)
         private repo: Repository<Municipio>,
-    ){}
+    ) {}
 
-    async getDashboardData(){
-
+    async getDashboardData() {
         const data = await this.repo
-        .createQueryBuilder('m')
-        
-        .innerJoin('m.caso', 'c') 
-        .innerJoin('m.obito', 'o')
+            .createQueryBuilder('m')
+            .innerJoin('m.caso', 'c')
+            .innerJoin('m.obito', 'o')
+            .select('m.nome', 'municipio')
+            .addSelect('COALESCE(SUM(DISTINCT c.casos_confirmados), 0)', 'casos')
+            .addSelect('COALESCE(SUM(DISTINCT o.quant_obitos), 0)', 'obitos')
+            .groupBy('m.id_municipio')
+            .addGroupBy('m.nome')
+            .getMany();
 
-        .select('m.nome', 'municipio')
-
-        .addSelect('COALESCE(SUM(DISTINCT c.casos_confirmados), 0)', 'casos')
-        .addSelect('COALESCE(SUM(DISTINCT o.quant_obitos), 0)', 'obitos')
-
-        .groupBy('m.id_municipio')
-        
-        .addGroupBy('m.nome')
-
-        .getRawMany();
-
-        
         return data;
+    }
+
+    async buscarPorNome(nome: string): Promise<Municipio | null> {
+        return this.repo.findOne({
+            where: { nome },
+        });
     }
 }

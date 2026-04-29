@@ -1,4 +1,6 @@
-import { Controller } from '@nestjs/common';
-
-@Controller('casos-dengue')
-export class CasosDengueController {}
+import { Controller, Get, Query } from '@nestjs/common';
+import { CasosDengueService } from './casos_dengue.service';
+@Controller('dados')
+export class CasosDengueController {
+    constructor(private readonly service: CasosDengueService){}
+}

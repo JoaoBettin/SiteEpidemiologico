@@ -14,12 +14,32 @@ export class CasosDengueService {
         return this.repo.count();
     }
 
+    async buscarPorCidade(cidade: string){
+        return this.repo
+        .createQueryBuilder('caso')
+        .leftJoin('caso.municipio', 'municipio')
+        .where('municipio.nome = :cidade', {cidade})
+        .getMany();
+    }
+
+    async totalCasosPorCidade(cidade: string) {
+    const result = await this.repo
+        .createQueryBuilder('caso')
+        .leftJoin('caso.municipio', 'municipio')
+        .select('SUM(caso.casos_confirmados)', 'total')
+        .where('municipio.nome = :cidade', { cidade })
+        .getRawOne();
+
+    return Number(result.total) || 0;
+}
+
     async casosPorMunicipio() {
-        createQueryBuilder('caso')
+        return this.repo
+        .createQueryBuilder('caso')
         .leftJoin('caso.municipio', 'municipio')
         .select('municipio.nome', 'municipio')
         .addSelect('SUM(caso.casos_confirmados)', 'totalCasos')
         .groupBy('municipio.nome')
-        .getRawMany();
+        .getMany();
     }
 }
