@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 function Cards({cidade}) {
     const [dados, setDados] = useState(null);
     
-    useEffect (() => {
+    useEffect (() => { 
         fetch(`https://siteepidemiologico-production.up.railway.app/dashboard?cidade=${cidade}`)
         .then(res => {
             console.log("STATUS:", res.status);
