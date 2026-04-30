@@ -4,7 +4,7 @@ function Cards({cidade}) {
     const [dados, setDados] = useState(null);
     
     useEffect (() => {
-        fetch(`http://localhost:3000/dashboard?cidade=${cidade}`)
+        fetch(`https://siteepidemiologico-production.up.railway.app/dashboard?cidade=${cidade}`)
         .then(res => {
             console.log("STATUS:", res.status);
             return res.text(); // 👈 troca pra text
