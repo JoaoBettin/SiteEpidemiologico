@@ -8,20 +8,20 @@ import {
     Legend,
     ResponsiveContainer,
 } from "recharts";
- 
-const dados = [
-    { municipio: "Caraguatatuba", SE10: 325, SE11: 283, SE12: 357 },
-    { municipio: "São Sebastião",  SE10: 117, SE11: 198, SE12: 242 },
-    { municipio: "Ilhabela",       SE10: 38,  SE11: 47,  SE12: 63  },
-    { municipio: "Ubatuba",        SE10: 82,  SE11: 107, SE12: 148 },
+
+const dadosTransformados = [
+    { municipio: 'Caraguatatuba', SE16: 95,  SE17: 110, SE18: 122 },
+    { municipio: 'São Sebastião', SE16: 23,  SE17: 19,  SE18: 21  },
+    { municipio: 'Ilhabela',      SE16: 17,  SE17: 17,  SE18: 19  },
+    { municipio: 'Ubatuba',       SE16: 423, SE17: 410, SE18: 449 },
 ];
- 
+
 const CORES = {
-    SE10: "#2563EB",
-    SE11: "#22C55E",
-    SE12: "#F97316",
+    SE16: "#2563EB",
+    SE17: "#22C55E",
+    SE18: "#F97316",
 };
- 
+
 function CustomTooltip({ active, payload, label }) {
     if (active && payload && payload.length) {
         return (
@@ -37,8 +37,20 @@ function CustomTooltip({ active, payload, label }) {
     }
     return null;
 }
- 
-function Graphics() {
+
+function Graphics({ cidade }) {
+    const dadosFiltrados = dadosTransformados.find(
+        (item) => item.municipio === cidade
+    );
+
+    const dadosGrafico = dadosFiltrados
+        ? [
+              { semana: "SE 16", casos: dadosFiltrados.SE16 },
+              { semana: "SE 17", casos: dadosFiltrados.SE17 },
+              { semana: "SE 18", casos: dadosFiltrados.SE18 },
+          ]
+        : dadosTransformados;
+
     return (
         <div className="grafico-container">
             <h2 className="grafico-titulo">
@@ -46,14 +58,14 @@ function Graphics() {
             </h2>
             <ResponsiveContainer width="100%" height={320}>
                 <BarChart
-                    data={dados}
+                    data={dadosGrafico}
                     margin={{ top: 10, right: 20, left: 0, bottom: 5 }}
                     barCategoryGap="25%"
                     barGap={3}
                 >
                     <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" vertical={false} />
                     <XAxis
-                        dataKey="municipio"
+                        dataKey={dadosFiltrados ? "semana" : "municipio"}
                         tick={{ fontSize: 13, fill: "#6B7280" }}
                         axisLine={false}
                         tickLine={false}
@@ -76,13 +88,20 @@ function Graphics() {
                         iconType="circle"
                         iconSize={10}
                     />
-                    <Bar dataKey="SE10" name="SE 10" fill={CORES.SE10} radius={[4, 4, 0, 0]} />
-                    <Bar dataKey="SE11" name="SE 11" fill={CORES.SE11} radius={[4, 4, 0, 0]} />
-                    <Bar dataKey="SE12" name="SE 12" fill={CORES.SE12} radius={[4, 4, 0, 0]} />
+
+                    {dadosFiltrados ? (
+                        <Bar dataKey="casos" name="Casos" fill={CORES.SE16} radius={[4, 4, 0, 0]} />
+                    ) : (
+                        <>
+                            <Bar dataKey="SE16" name="SE 16" fill={CORES.SE16} radius={[4, 4, 0, 0]} />
+                            <Bar dataKey="SE17" name="SE 17" fill={CORES.SE17} radius={[4, 4, 0, 0]} />
+                            <Bar dataKey="SE18" name="SE 18" fill={CORES.SE18} radius={[4, 4, 0, 0]} />
+                        </>
+                    )}
                 </BarChart>
             </ResponsiveContainer>
         </div>
     );
 }
- 
+
 export default Graphics;
