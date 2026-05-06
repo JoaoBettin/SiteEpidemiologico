@@ -1,23 +1,40 @@
 import Header from "./components/Header";
 import Graphics from "./components/Graphics";
 import Cards from "./components/Cards";
-import { useState } from "react";
- 
+import { useEffect, useState } from "react";
+
 function App() {
 
     const cidades = ["Caraguatatuba", "São Sebastião", "Ilhabela", "Ubatuba"]
-    const [cidade, setCidade] = useState('Caraguatatuba');
+    const [cidade, setCidade] = useState(null);
+    const [open, setOpen] = useState(false);
+    useEffect(() => {
+      const clickOutside = () => setOpen(false);
+      document.addEventListener('click', clickOutside);
+      return () => document.removeEventListener('click', clickOutside);
+    }, [])
     return (
         <div className="container">
             <Header />
             <div className="main-content">
-                <h2>Escolha a cidade</h2>
-                <div>
-                  {cidades.map((c) => (
-                    <button key={c} onClick={() => setCidade(c)}>
-                      {c}
+                <div className="dropdown">
+                    <button className="dropdown-button" onClick={(e) => {e.stopPropagation(); setOpen(!open)} }>
+                      {cidade || 'Escolha a cidade'}
                     </button>
-                  ))}
+
+                    {open && (
+                      <div className="dropdown-menu">
+                        {cidades.map ((c) => (
+                          <div key={c} className="dropdown-item" onClick={() => {
+                            setCidade(c);
+                            setOpen(false);
+                          }}
+                          >
+                            {c}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                 </div>
                 <Cards cidade={cidade} />
                 <Graphics cidade={cidade}/>

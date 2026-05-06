@@ -42,12 +42,16 @@ body {
 .header-logo {
     width: 48px;
     height: 48px;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.308);
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+}
+
+.logo-image {
+    width: 48px;
 }
 
 .header-title {
@@ -99,7 +103,7 @@ body {
 /* ── LAYOUT PRINCIPAL ── */
 .main-content {
     display: grid;
-    grid-template-columns: 1fr 1.6fr;
+    grid-template-columns: 1fr ;
     gap: 20px;
     align-items: start;
 }
@@ -234,4 +238,49 @@ body {
     .cards {
         grid-template-columns: 1fr;
     }
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.dropdown-button {
+    background: #0B5EB7;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.2s;
+    width: 160px;
+    height: 80%;
+}
+
+.dropdown-button:hover {
+    background: #353578;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    z-index: 10;
+    overflow: hidden;
+}
+
+.dropdown-item {
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.dropdown-item:hover {
+    background: #f3f4f6;
 }
