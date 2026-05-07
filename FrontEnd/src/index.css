@@ -165,6 +165,41 @@ body {
     padding-left: 10px;
 }
 
+.cards-geral {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.card-geral {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px 18px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.card-geral-cidade {
+    font-size: 15px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.card-geral-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.card-geral-info div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
 /* ── GRÁFICO ── */
 .grafico-container {
     background: #ffffff;
